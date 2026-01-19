@@ -25,14 +25,10 @@ func (r *TaskRepository) FindAll(status, search string, limit, offset int) ([]mo
     args := []interface{}{}
     
     // Добавляем фильтр по статусу
-    switch status {
-    case "completed":
-        conditions = append(conditions, "completed = ?")
-        args = append(args, true)
-    case "active":
-        conditions = append(conditions, "completed = ?")
-        args = append(args, false)
-    }
+    if status == "completed" || status == "active" {
+    conditions = append(conditions, "completed = ?")
+    args = append(args, status == "completed")
+}
     
     // Добавляем поиск по заголовку
     if search != "" {
